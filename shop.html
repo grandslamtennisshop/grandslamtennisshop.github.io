@@ -4,11 +4,386 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shop | Grand Slam Tennis Shop</title>
-</head>
-<body>
-  <h1>Shop Tennis Equipment</h1>
-  <p>Explore premium rackets, bags, balls, strings, grips, and accessories.</p>
 
-  <a href="index.html">← Back to Home</a>
+  <style>
+    :root {
+      --navy: #102A43;
+      --green: #17806D;
+      --yellow: #D7E84B;
+      --cream: #F7F5EF;
+      --text: #1E252B;
+      --muted: #667085;
+      --border: #E4E7EC;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+    }
+
+    nav {
+      background: var(--navy);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 7%;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      color: var(--yellow);
+      font-size: 21px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 22px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .hero {
+      padding: 65px 8%;
+      color: white;
+      background:
+        linear-gradient(90deg, rgba(16,42,67,.95), rgba(16,42,67,.50)),
+        url("images/hero.jpg") center/cover;
+    }
+
+    .hero h1 {
+      margin: 0;
+      max-width: 700px;
+      font-size: clamp(38px, 6vw, 70px);
+    }
+
+    .hero p {
+      max-width: 580px;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .sale-badge {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--navy);
+      padding: 9px 14px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .shop-layout {
+      padding: 45px 7%;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 35px;
+    }
+
+    .sidebar {
+      background: white;
+      padding: 22px;
+      height: fit-content;
+      border: 1px solid var(--border);
+    }
+
+    .sidebar h3 { margin-top: 0; }
+
+    .category-button {
+      width: 100%;
+      text-align: left;
+      padding: 12px 0;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .category-button:hover,
+    .category-button.active {
+      color: var(--green);
+    }
+
+    .shop-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+    .shop-header h2 { margin: 0; }
+
+    #search {
+      width: 260px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+      gap: 22px;
+    }
+
+    .product-card {
+      background: white;
+      border: 1px solid var(--border);
+      transition: transform .2s, box-shadow .2s;
+      overflow: hidden;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(16,42,67,.14);
+    }
+
+    .product-image {
+      height: 215px;
+      width: 100%;
+      object-fit: cover;
+      background: #E9EFEE;
+    }
+
+    .product-content { padding: 16px; }
+
+    .product-category {
+      color: var(--green);
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: .8px;
+    }
+
+    .product-card h3 {
+      font-size: 17px;
+      margin: 8px 0;
+      min-height: 40px;
+    }
+
+    .product-card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      min-height: 38px;
+    }
+
+    .price {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--navy);
+      margin: 14px 0;
+    }
+
+    .buy-button {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      padding: 11px;
+      background: var(--yellow);
+      color: var(--navy);
+      font-weight: bold;
+    }
+
+    .buy-button:hover {
+      background: var(--green);
+      color: white;
+    }
+
+    .trust {
+      padding: 40px 7%;
+      background: var(--navy);
+      color: white;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      text-align: center;
+      gap: 20px;
+    }
+
+    .trust strong {
+      display: block;
+      color: var(--yellow);
+      margin-bottom: 7px;
+    }
+
+    footer {
+      padding: 25px 7%;
+      background: #081C2C;
+      color: #C9D4DB;
+      text-align: center;
+    }
+
+    @media (max-width: 800px) {
+      .shop-layout { grid-template-columns: 1fr; }
+      .sidebar { display: flex; flex-wrap: wrap; gap: 8px; }
+      .sidebar h3 { width: 100%; }
+      .category-button { width: auto; padding: 8px; border: none; }
+      .shop-header { display: block; }
+      #search { width: 100%; margin-top: 16px; }
+      .trust { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">GRAND SLAM TENNIS SHOP</div>
+    <div>
+      <a href="index.html">HOME</a>
+      <a href="shop.html">SHOP</a>
+      <a href="index.html#contact">CONTACT</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="sale-badge">GRAND OPENING SALE - UP TO 20% OFF SELECTED ITEMS</div>
+    <h1>Find Your Competitive Edge.</h1>
+    <p>Shop premium tennis rackets, strings, grips, bags, balls, apparel, and accessories selected for players who expect more from every match.</p>
+  </section>
+
+  <main class="shop-layout">
+    <aside class="sidebar">
+      <h3>SHOP BY CATEGORY</h3>
+      <button class="category-button active" onclick="filterProducts('All')">All Products</button>
+      <button class="category-button" onclick="filterProducts('Rackets')">Rackets</button>
+      <button class="category-button" onclick="filterProducts('Tennis Balls')">Tennis Balls</button>
+      <button class="category-button" onclick="filterProducts('Bags')">Bags</button>
+      <button class="category-button" onclick="filterProducts('Strings')">Strings & Grips</button>
+      <button class="category-button" onclick="filterProducts('Shoes')">Shoes</button>
+      <button class="category-button" onclick="filterProducts('Accessories')">Accessories</button>
+    </aside>
+
+    <section>
+      <div class="shop-header">
+        <h2>PREMIUM TENNIS COLLECTION</h2>
+        <input id="search" type="text" placeholder="Search products..." oninput="searchProducts()">
+      </div>
+
+      <div class="products" id="productGrid"></div>
+    </section>
+  </main>
+
+  <section class="trust">
+    <div><strong>AUTHENTIC PRODUCTS</strong>Premium equipment from trusted brands.</div>
+    <div><strong>FAST DELIVERY</strong>Reliable shipping across Indonesia.</div>
+    <div><strong>SECURE CHECKOUT</strong>Safe checkout through trusted partners.</div>
+    <div><strong>PLAYER SUPPORT</strong>Ask us for equipment recommendations.</div>
+  </section>
+
+  <footer>
+    © 2026 Grand Slam Tennis Shop · Premium gear for every point.
+  </footer>
+
+  <script>
+    /*
+      EDIT PRODUCTS HERE
+
+      Replace:
+      - name
+      - category
+      - price
+      - description
+      - image
+      - orderLink
+
+      Example image location:
+      images/racket-01.jpg
+
+      Example WhatsApp order link:
+      https://wa.me/6281234567890?text=I%20want%20to%20order%20the%20product
+    */
+
+    const products = [];
+
+    for (let i = 1; i <= 100; i++) {
+      products.push({
+        name: `Product ${i}`,
+        category: "Accessories",
+        price: "Rp 0",
+        description: "Add a short product description, key feature, or benefit here.",
+        image: "images/product-placeholder.jpg",
+        orderLink: "https://wa.me/6281234567890?text=I%20want%20to%20order%20Product%20" + i
+      });
+    }
+
+    /*
+      EXAMPLE: Replace Product 1 with a real tennis racket.
+
+      products[0] = {
+        name: "Pro Performance 98 Racket",
+        category: "Rackets",
+        price: "Rp 3.450.000",
+        description: "Control-focused 98 sq in racket for advanced players.",
+        image: "images/racket-01.jpg",
+        orderLink: "https://wa.me/6281234567890?text=I%20want%20to%20order%20Pro%20Performance%2098%20Racket"
+      };
+    */
+
+    let currentCategory = "All";
+
+    function renderProducts(productList) {
+      const grid = document.getElementById("productGrid");
+
+      if (productList.length === 0) {
+        grid.innerHTML = "<p>No products found. Try a different search.</p>";
+        return;
+      }
+
+      grid.innerHTML = productList.map(product => `
+        <article class="product-card">
+          <img class="product-image" src="${product.image}" alt="${product.name}">
+          <div class="product-content">
+            <div class="product-category">${product.category}</div>
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <div class="price">${product.price}</div>
+            <a class="buy-button" href="${product.orderLink}" target="_blank">ORDER NOW</a>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function filterProducts(category) {
+      currentCategory = category;
+
+      document.querySelectorAll(".category-button").forEach(button => {
+        button.classList.remove("active");
+      });
+
+      event.target.classList.add("active");
+      searchProducts();
+    }
+
+    function searchProducts() {
+      const keyword = document.getElementById("search").value.toLowerCase();
+
+      const filtered = products.filter(product => {
+        const correctCategory =
+          currentCategory === "All" || product.category === currentCategory;
+
+        const matchesSearch =
+          product.name.toLowerCase().includes(keyword) ||
+          product.description.toLowerCase().includes(keyword) ||
+          product.category.toLowerCase().includes(keyword);
+
+        return correctCategory && matchesSearch;
+      });
+
+      renderProducts(filtered);
+    }
+
+    renderProducts(products);
+  </script>
+
 </body>
 </html>
