@@ -313,16 +313,16 @@
   <main class="shop-layout">
     <aside class="sidebar">
       <h3>SHOP BY CATEGORY</h3>
-      <button class="category-button active" onclick="filterProducts('All')">All Products</button>
-      <button class="category-button" onclick="filterProducts('Rackets')">Rackets</button>
-      <button class="category-button" onclick="filterProducts('Tennis Balls')">Tennis Balls</button>
-      <button class="category-button" onclick="filterProducts('Bags')">Bags</button>
-      <button class="category-button" onclick="filterProducts('Strings')">Strings</button>
-      <button class="category-button" onclick="filterProducts('Strings')">Grips</button>
-      <button class="category-button" onclick="filterProducts('Shoes')">Shoes</button>
-      <button class="category-button" onclick="filterProducts('Strings')">Shirts</button>
-      <button class="category-button" onclick="filterProducts('Strings')">Towels</button>
-      <button class="category-button" onclick="filterProducts('Accessories')">Accessories</button>
+<button class="category-button active" onclick="filterProducts('All', this)">All Products</button>
+<button class="category-button" onclick="filterProducts('Rackets', this)">Rackets</button>
+<button class="category-button" onclick="filterProducts('Tennis Balls', this)">Tennis Balls</button>
+<button class="category-button" onclick="filterProducts('Bags', this)">Bags</button>
+<button class="category-button" onclick="filterProducts('Strings', this)">Strings</button>
+<button class="category-button" onclick="filterProducts('Grips', this)">Grips</button>
+<button class="category-button" onclick="filterProducts('Shoes', this)">Shoes</button>
+<button class="category-button" onclick="filterProducts('Shirts', this)">Shirts</button>
+<button class="category-button" onclick="filterProducts('Towels', this)">Towels</button>
+<button class="category-button" onclick="filterProducts('Accessories', this)">Accessories</button>
     </aside>
 
     <section>
@@ -502,6 +502,18 @@ function goToPage(page) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+function filterProducts(category, clickedButton) {
+  currentCategory = category;
+  currentPage = 1;
+
+  document.querySelectorAll(".category-button").forEach(button => {
+    button.classList.remove("active");
+  });
+
+  clickedButton.classList.add("active");
+  renderProducts();
+}
+    
 function searchProducts() {
   currentPage = 1;
   renderProducts();
