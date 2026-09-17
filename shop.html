@@ -149,6 +149,18 @@
     }
 
     .product-image {
+      function openImage(imageUrl, imageName) {
+  document.getElementById("modalImage").src = imageUrl;
+  document.getElementById("modalImage").alt = imageName;
+  document.getElementById("imageModal").classList.add("active");
+}
+
+function closeImage(event) {
+  if (event.target.id === "imageModal" ||
+      event.target.classList.contains("close-modal")) {
+    document.getElementById("imageModal").classList.remove("active");
+  }
+}
       height: 215px;
       width: 100%;
       object-fit: cover;
@@ -358,7 +370,10 @@
 
       grid.innerHTML = productList.map(product => `
         <article class="product-card">
-          <img class="product-image" src="${product.image}" alt="${product.name}">
+          <img class="product-image"
+           src="${product.image}"
+           alt="${product.name}"
+           onclick="openImage('${product.image}', '${product.name}')">
           <div class="product-content">
             <div class="product-category">${product.category}</div>
             <h3>${product.name}</h3>
@@ -398,9 +413,25 @@
 
       renderProducts(filtered);
     }
+function openImage(imageUrl, imageName) {
+  document.getElementById("modalImage").src = imageUrl;
+  document.getElementById("modalImage").alt = imageName;
+  document.getElementById("imageModal").classList.add("active");
+}
 
+function closeImage(event) {
+  if (event.target.id === "imageModal" ||
+      event.target.classList.contains("close-modal")) {
+    document.getElementById("imageModal").classList.remove("active");
+  }
+}
     renderProducts(products);
   </script>
+
+  <div class="image-modal" id="imageModal" onclick="closeImage(event)">
+  <button class="close-modal" aria-label="Close image">&times;</button>
+  <img id="modalImage" src="" alt="">
+</div>
 
 </body>
 </html>
