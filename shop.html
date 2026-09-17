@@ -507,6 +507,24 @@ function searchProducts() {
   renderProducts();
 }
 
+function openImage(imageUrl, imageName) {
+  const modal = document.getElementById("imageModal");
+  const modalImage = document.getElementById("modalImage");
+
+  modalImage.src = imageUrl;
+  modalImage.alt = imageName;
+  modal.classList.add("active");
+}
+
+function closeImage(event) {
+  if (
+    event.target.id === "imageModal" ||
+    event.target.classList.contains("close-modal")
+  ) {
+    document.getElementById("imageModal").classList.remove("active");
+  }
+}
+
 renderProducts();
   </script>
 
