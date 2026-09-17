@@ -220,28 +220,6 @@
       margin: 14px 0;
     }
     
-.pagination {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  margin: 40px 0;
-}
-
-.page-button {
-  border: 1px solid var(--border);
-  background: white;
-  color: var(--navy);
-  padding: 10px 14px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.page-button.active,
-.page-button:hover {
-  background: var(--tennis-yellow);
-  border-color: var(--tennis-yellow);
-}
     .buy-button {
       display: block;
       text-align: center;
@@ -289,6 +267,29 @@
       #search { width: 100%; margin-top: 16px; }
       .trust { grid-template-columns: repeat(2, 1fr); }
     }
+
+    .pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 40px 0;
+}
+
+.page-button {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--navy);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.page-button.active,
+.page-button:hover {
+  background: var(--tennis-yellow);
+  border-color: var(--tennis-yellow);
+}
   </style>
 </head>
 
@@ -331,7 +332,7 @@
       </div>
 
      <div class="products" id="productGrid"></div>
-    <div id="pagination" class="pagination"></div>
+      <div id="pagination" class="pagination"></div>
     </section>
   </main>
 
