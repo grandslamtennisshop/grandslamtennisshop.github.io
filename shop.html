@@ -219,7 +219,7 @@
       color: var(--navy);
       margin: 14px 0;
     }
-    
+
     .buy-button {
       display: block;
       text-align: center;
@@ -267,29 +267,6 @@
       #search { width: 100%; margin-top: 16px; }
       .trust { grid-template-columns: repeat(2, 1fr); }
     }
-
-    .pagination {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin: 40px 0;
-}
-
-.page-button {
-  padding: 10px 14px;
-  border: 1px solid var(--border);
-  background: white;
-  color: var(--navy);
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.page-button.active,
-.page-button:hover {
-  background: var(--tennis-yellow);
-  border-color: var(--tennis-yellow);
-}
   </style>
 </head>
 
@@ -331,8 +308,7 @@
         <input id="search" type="text" placeholder="Search products..." oninput="searchProducts()">
       </div>
 
-     <div class="products" id="productGrid"></div>
-      <div id="pagination" class="pagination"></div>
+      <div class="products" id="productGrid"></div>
     </section>
   </main>
 
@@ -390,7 +366,6 @@
     image: "Luxilon-4G.jpg",
     orderLink: "https://wa.me/6281234567890?text=I%20want%20to%20order%20Luxilon%204G"
   }
- 
 ];
 
 
@@ -407,89 +382,60 @@
       };
     */
 
-let currentCategory = "All";
-let currentPage = 1;
-const productsPerPage = 30;
+    let currentCategory = "All";
 
-function getFilteredProducts() {
-  const keyword = document.getElementById("search").value.toLowerCase();
+    function renderProducts(productList) {
+      const grid = document.getElementById("productGrid");
 
-  return products.filter(product => {
-    const correctCategory =
-      currentCategory === "All" || product.category === currentCategory;
+      if (productList.length === 0) {
+        grid.innerHTML = "<p>No products found. Try a different search.</p>";
+        return;
+      }
 
-    const matchesSearch =
-      product.name.toLowerCase().includes(keyword) ||
-      product.description.toLowerCase().includes(keyword) ||
-      product.category.toLowerCase().includes(keyword);
-
-    return correctCategory && matchesSearch;
-  });
-}
-
-function renderProducts() {
-  const filteredProducts = getFilteredProducts();
-  const grid = document.getElementById("productGrid");
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-
-  if (currentPage > totalPages) currentPage = 1;
-
-  const start = (currentPage - 1) * productsPerPage;
-  const pageProducts = filteredProducts.slice(start, start + productsPerPage);
-
-  if (pageProducts.length === 0) {
-    grid.innerHTML = "<p>No products found.</p>";
-    document.getElementById("pagination").innerHTML = "";
-    return;
-  }
-
-  grid.innerHTML = pageProducts.map(product => `
-    <article class="product-card">
-      <img class="product-image"
+      grid.innerHTML = productList.map(product => `
+        <article class="product-card">
+          <img class="product-image"
            src="${product.image}"
            alt="${product.name}"
            onclick="openImage('${product.image}', '${product.name}')">
-      <div class="product-content">
-        <div class="product-category">${product.category}</div>
-        <h3>${product.name}</h3>
-        <p>${product.description}</p>
-        <div class="price">${product.price}</div>
-        <a class="buy-button" href="${product.orderLink}" target="_blank">ORDER NOW</a>
-      </div>
-    </article>
-  `).join("");
+          <div class="product-content">
+            <div class="product-category">${product.category}</div>
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <div class="price">${product.price}</div>
+            <a class="buy-button" href="${product.orderLink}" target="_blank">ORDER NOW</a>
+          </div>
+        </article>
+      `).join("");
+    }
 
-  renderPagination(totalPages);
-}
+    function filterProducts(category) {
+      currentCategory = category;
 
-function renderPagination(totalPages) {
-  const pagination = document.getElementById("pagination");
+      document.querySelectorAll(".category-button").forEach(button => {
+        button.classList.remove("active");
+      });
 
-  pagination.innerHTML = Array.from({ length: totalPages }, (_, index) => {
-    const page = index + 1;
-    return `<button class="page-button ${page === currentPage ? "active" : ""}"
-      onclick="goToPage(${page})">${page}</button>`;
-  }).join("");
-}
+      event.target.classList.add("active");
+      searchProducts();
+    }
 
-function goToPage(page) {
-  currentPage = page;
-  renderProducts();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
+    function searchProducts() {
+      const keyword = document.getElementById("search").value.toLowerCase();
 
-function filterProducts(category) {
-  currentCategory = category;
-  currentPage = 1;
-  renderProducts();
-}
+      const filtered = products.filter(product => {
+        const correctCategory =
+          currentCategory === "All" || product.category === currentCategory;
 
-function searchProducts() {
-  currentPage = 1;
-  renderProducts();
-}
+        const matchesSearch =
+          product.name.toLowerCase().includes(keyword) ||
+          product.description.toLowerCase().includes(keyword) ||
+          product.category.toLowerCase().includes(keyword);
 
-renderProducts();
+        return correctCategory && matchesSearch;
+      });
+
+      renderProducts(filtered);
     }
 function openImage(imageUrl, imageName) {
   document.getElementById("modalImage").src = imageUrl;
