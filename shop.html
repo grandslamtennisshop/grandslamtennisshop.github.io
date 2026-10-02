@@ -130,6 +130,15 @@
       border-radius: 5px;
     }
 
+    #sort {
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      background: white;
+      color: var(--text);
+      cursor: pointer;
+    }
+
     .products {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
@@ -264,7 +273,11 @@
       .sidebar h3 { width: 100%; }
       .category-button { width: auto; padding: 8px; border: none; }
       .shop-header { display: block; }
-      #search { width: 100%; margin-top: 16px; }
+    #search,
+    #sort {
+      width: 100%;
+      margin-top: 16px;
+}
       .trust { grid-template-columns: repeat(2, 1fr); }
     }
 
@@ -329,6 +342,12 @@
       <div class="shop-header">
         <h2>PREMIUM TENNIS COLLECTION</h2>
         <input id="search" type="text" placeholder="Search products..." oninput="searchProducts()">
+
+        <select id="sort" onchange="sortProducts()" aria-label="Sort products by price">
+        <option value="default">Sort by price</option>
+        <option value="low-high">Price: Low to High</option>
+        <option value="high-low">Price: High to Low</option>
+        </select>
       </div>
 
       <div class="products" id="productGrid"></div>
@@ -2621,8 +2640,9 @@ const productsPerPage = 30;
 
 function getFilteredProducts() {
   const keyword = document.getElementById("search").value.toLowerCase();
+  const sortOrder = document.getElementById("sort").value;
 
-  return products.filter(product =>
+  const filtered = products.filter(product =>
     (currentCategory === "All" || product.category === currentCategory) &&
     (
       product.name.toLowerCase().includes(keyword) ||
@@ -2630,6 +2650,17 @@ function getFilteredProducts() {
       product.category.toLowerCase().includes(keyword)
     )
   );
+
+  // Turns "Rp 3.999.000" into 3999000 for accurate price sorting
+  const priceToNumber = price => Number(price.replace(/[^\d]/g, ""));
+
+  if (sortOrder === "low-high") {
+    filtered.sort((a, b) => priceToNumber(a.price) - priceToNumber(b.price));
+  } else if (sortOrder === "high-low") {
+    filtered.sort((a, b) => priceToNumber(b.price) - priceToNumber(a.price));
+  }
+
+  return filtered;
 }
 
 function renderProducts() {
@@ -2684,6 +2715,11 @@ function filterProducts(category, clickedButton) {
 }
     
 function searchProducts() {
+  currentPage = 1;
+  renderProducts();
+}
+
+function sortProducts() {
   currentPage = 1;
   renderProducts();
 }
